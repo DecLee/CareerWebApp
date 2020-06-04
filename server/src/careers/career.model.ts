@@ -5,7 +5,10 @@ const careerSchema = new mongoose.Schema ({
   title: String,
   description: String,
   prerequisite: String,
-  //author: String,
+  author: {
+    ref: 'User',
+    type: mongoose.Schema.Types.ObjectId,
+  }
 });
 
 const careerModel = mongoose.model<Career & mongoose.Document>('Career', careerSchema);

@@ -1,22 +1,13 @@
-import * as express from 'express';
-import * as bodyParser from 'body-parser';
+import 'dotenv/config';
+import App from './app';
+import AuthenticationController from './authentication/authentication.controller';
+import CareerController from './careers/career.controller';
 
-function loggerMiddleware(request: express.Request, response: express.Response, next) {
-  console.log(`${request.method} ${request.path}`);
-  next();
-}
+const app = new App(
+  [
+    new AuthenticationController(),
+    new CareerController(),
+  ],
+);
 
-const app = express();
-
-app.use(loggerMiddleware);
-app.use(bodyParser.json());
-
-app.get('/hello', (request, response) => {
-  response.send('Hello world!');
-});
-
-app.post('/', (request,response) => {
-  response.send(request.body);
-});
-
-app.listen(5000);
+app.listen();
