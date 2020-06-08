@@ -5,7 +5,14 @@ export interface career {
   title:string;
   description: string;
   prerequisite?:string;
-  author:string;
+  author:user;
+}
+
+export interface user {
+  _id: string;
+  name:string;
+  email:string;
+  password?:string;
 }
 
 export interface careers {
@@ -13,13 +20,10 @@ export interface careers {
 }
 
 const useGetCareerList = () => {
-  const [result, setResult] = useState<careers>();
+  const [result, setResult] = useState<career[] | undefined>([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/career',
-    {
-      method:"GET"
-    })
+    fetch('http://localhost:5000/career')
       .then(res => res.json())
       .then(res => setResult(res))
       //.then(res => console.log(res))
