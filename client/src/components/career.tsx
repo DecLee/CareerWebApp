@@ -1,50 +1,46 @@
-import * as React from "react";
-//import * as axios from 'axios';
+import React, {useState, useEffect} from 'react';
+import useGetCareerList from '../services/useGetCareerList';
 
-interface IProp {
-  title:string,
-  description: string,
-}
+const Careers:React.FC = () => {
+  const careers = useGetCareerList();
+  //const [post, setPost] = React.useState();
 
-interface IState {
-  career: IProp[]
-}
-
-class Career extends React.Component<{},IState>{
-  constructor() {
-    super({});
-    this.state = {
-      career: []
+  return (
+    <ul>
+    {
+      careers.map(career => (
+        <li key={career._id}>
+          <h1> {career.title} </h1>
+          <p> {career.description} </p>
+          <p> {career.author.name} </p>
+          <p> {career.author.email} </p>
+        </li>
+      ))
     }
-  }
+    </ul>
+  )
 
-  callAPI() {
-    fetch("http://localhost:5000/career")
+  /*const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/career')
       .then(res => res.json())
-      //.then(res => console.log(res))
-      .then(res => this.setState({career:res}));
-  }
+      .then(res => setData(res))
+      .catch(error => console.log(error));
+  }, []);
 
-  componentDidMount() {
-    this.callAPI();
-  }
-
-  render() {
-    //const career = this.state;
-    return (
-      <ul>
-        {this.state.career.map(function(career,index) {
-          return (
-            <div key={index}>
-              <h1>{career.title} </h1>
-              <p> {career.description} </p>
-            </div>
-          );
-        }
-        )}
-      </ul>
-    );
-  }
+  return (
+    <ul>
+      {data.map(item => (
+          <li key={item._id}>
+            <h1>{item.title}</h1>
+            <p>{item.description}</p>
+            <p>{item.author.email}</p>
+            <p>{item.author.name}</p>
+          </li>
+      ))}
+    </ul>
+  );*/
 }
 
-export default Career;
+export default Careers;
