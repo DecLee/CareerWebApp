@@ -12,19 +12,9 @@ const Login:React.FC = () => {
   const [info,setLogin] = useLoginService();
 
   const onSubmit = handleSubmit((data:LoginData) => {
-    //console.log(JSON.stringify(data));
     setLogin(data);
-    /*const requestOption = {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data)
-    };
-    fetch('http://localhost:5000/auth/login', requestOption)
-      .then(res => res.json())
-      .then(data => console.log(data));*/
-    //setLogin(data);
   });
-  console.log(info);
+
 
   return (
       <div>
