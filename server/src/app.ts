@@ -3,6 +3,7 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
 import * as cookieParser from 'cookie-parser';
+import * as cors from 'cors';
 import Controller from './interfaces/controller.interface';
 import errorMiddleware from './middleware/error.middleware';
 import loggerMiddleware from './middleware/logger.middleware';
@@ -36,6 +37,7 @@ class App {
     private initializeMiddlewares() {
       this.app.use(bodyParser.json());
       this.app.use(cookieParser());
+      this.app.use(cors());
     }
 
     private initializeErrorHandling() {

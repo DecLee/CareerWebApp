@@ -21,7 +21,7 @@ class CareerController implements Controller {
 
   private initializeRoutes() {
     this.router.get(this.path, this.getAllCareer);
-    this.router.get(`${this.path}/id`, this.getCareerById);
+    this.router.get(`${this.path}/:id`, this.getCareerById);
     this.router
       .all(`${this.path}/*`, authMiddleware)
       .patch(`${this.path}/:id`,validationMiddleware(CreateCareerDto, true), this.modifyCareer)
@@ -32,14 +32,21 @@ class CareerController implements Controller {
   private getAllCareer = async(req:express.Request, res: express.Response, next: express.NextFunction) => {
       const careers = await this.career.find()
         .populate('author', '-password');
-      res.send(careers);
+        if(careers){
+          //console.log(careers);
+          res.send(careers);
+        } else {
+          next(new CareerNotFoundException('as'));
+        }
   }
 
   private getCareerById = async(req: express.Request, res: express.Response, next:express.NextFunction) => {
     const id = req.params.id;
     this.career.findById(id)
+      .populate('author', '-password')
       .then((career) => {
         if(career){
+          //console.log(career);
           res.send(career);
         } else {
           next(new CareerNotFoundException(id));

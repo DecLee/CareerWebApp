@@ -48,6 +48,7 @@ class AuthenticationController implements Controller {
 
   private login = async(request: express.Request, response: express.Response, next:express.NextFunction) => {
     const loginData:LoginDto = request.body;
+    //console.log(loginData);
     const user = await this.user.findOne({email: loginData.email});
     if(user){
       const isPasswordMatching = await bcrypt.compare(loginData.password, user.password);
@@ -65,7 +66,7 @@ class AuthenticationController implements Controller {
   }
 
   private logout = async(request:express.Request,response:express.Response) => {
-    const cookie = request.getHeader('Cookie');
+    const cookie = request.get('Cookie');
     response.setHeader('Set-Cookie', ['Authorization=;Max-age=0']);
     response.send(200);
   }
